@@ -4,7 +4,7 @@ using namespace std;
 
 Menu::Menu(const std::vector<std::string>& options) :
     m_options(options),
-    m_numOptions(options.size()),
+    m_numOptions(static_cast<int>(options.size())),
     m_optionSpacing(1),
     m_currentOption(0)
 {
@@ -16,11 +16,14 @@ Menu::Menu(const std::vector<std::string>& options) :
 
     // calculate center position for menu
     m_menuX = m_windowWidth / 2;
-    m_menuY = m_windowHeight / 2 - ((m_numOptions - 1) * m_optionSpacing) / 2;
+    m_menuY = m_windowHeight / 2 - ((m_numOptions - 1) * m_optionSpacing) / 2 + 3;
+    l_logo_y = m_windowHeight / 2 - logo_height - m_optionSpacing + 2;
 }
 
 void Menu::run()
 {
+    printLogo();
+    
     printOptions();
 
     // select menu options with arrow keys
@@ -78,6 +81,19 @@ void Menu::printOptions()
     }
 }
 
+void Menu::printLogo()
+{
+    gotoxy(0, l_logo_y);
+    std::cout << "\t\t\t\t  __  __             _  _____ _                            " << std::endl;
+    std::cout << "\t\t\t\t |  \\/  |           (_)/ ____(_)                           " << std::endl;
+    std::cout << "\t\t\t\t | \\  / | __ _  __ _ _| |     _ _ __   ___ _ __ ___   __ _ " << std::endl;
+    std::cout << "\t\t\t\t | |\\/| |/ _` |/ _` | | |    | | '_ \\ / _ \\ '_ ` _ \\ / _` |" << std::endl;
+    std::cout << "\t\t\t\t | |  | | (_| | (_| | | |____| | | | |  __/ | | | | | (_| |" << std::endl;
+    std::cout << "\t\t\t\t |_|  |_|\\__,_|\\__, |_|\\_____|_|_| |_|\\___|_| |_| |_|\\__,_|" << std::endl;
+    std::cout << "\t\t\t\t                __/ |                                      " << std::endl;
+    std::cout << "\t\t\t\t               |___/                                       " << std::endl;
+}
+
 void Menu::highlightOption(int option)
 {
     int optionX = m_menuX - static_cast<int>(m_options[option].size()) / 2;
@@ -105,4 +121,9 @@ void Menu::setMenuPosition(int x, int y)
 {
     m_menuX = x;
     m_menuY = y;
+}
+
+void Menu::setLogoPosition(int y)
+{
+    l_logo_y = y;
 }
