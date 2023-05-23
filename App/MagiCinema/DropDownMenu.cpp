@@ -119,6 +119,12 @@ void OpenNewWindow(int buttonIndex, int screenWidth, int screenHeight)
         EndDrawing();
     }
 
+    // Unload the textures
+    for (int i = 0; i < movies.size(); i++)
+    {
+        UnloadTexture(movies[i].image);
+    }
+
     // Close the new window when it's done
     CloseWindow();
 
