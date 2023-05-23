@@ -19,13 +19,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DropDownMenu.cpp" />
     <ClCompile Include="Logo.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Movie.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DropDownMenu.h" />
     <ClInclude Include="Logo.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="Movie.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

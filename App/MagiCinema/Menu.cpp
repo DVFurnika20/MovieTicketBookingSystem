@@ -1,4 +1,6 @@
 #include "Menu.h"
+#include "Movie.h"
+#include "DropDownMenu.h"
 #include "Logo.h"
 
 void RunMenu(int screenWidth, int screenHeight)
@@ -27,7 +29,7 @@ void RunMenu(int screenWidth, int screenHeight)
         // Load the logo if it hasn't been loaded before
         if (!isLogoLoaded)
         {
-            logo = LoadTexture("../../resources/MagiCinema.png");
+            logo = LoadTexture("../resources/MagiCinema.png");
             isLogoLoaded = true;
         }
 
@@ -60,6 +62,19 @@ void RunMenu(int screenWidth, int screenHeight)
             case 2:
                 DrawText("Exit", centerX + buttonWidth / 2 - MeasureText("Exit", 20) / 2, buttonY + buttonHeight / 2 - 10, 20, WHITE);
                 break;
+            }
+
+            // Check if the button is clicked
+            if (isMouseOver && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+                if (i == 0 || i == 1) {
+                    OpenNewWindow(i, screenWidth, screenHeight);
+                    isLogoLoaded = false;  // Reset the flag to reload the logo when returning to the menu
+                    break;
+                }
+                else if (i == 2) {
+                    CloseWindow();
+                    exit(0);
+                }
             }
         }
 
