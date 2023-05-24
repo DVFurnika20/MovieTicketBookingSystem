@@ -11,13 +11,19 @@ void OpenNewWindow(int buttonIndex, int screenWidth, int screenHeight)
 
     int selectedDay = 0;
 
+    // Get the current day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+    time_t currentTime = time(nullptr);
+    tm localTime;
+    localtime_s(&localTime, &currentTime);
+    int currentDay = (localTime.tm_wday + 6) % 7;
+
     // Initialize the drop-down menu
     DropDownMenu dropDownMenu;
     dropDownMenu.buttonRect = { (float)(screenWidth - 200 - 10), 10, 200, 30 };
     dropDownMenu.menuRect = { (float)(screenWidth - 200 - 10), 10 + 30 + 10, 200, 30 };
     dropDownMenu.isOpen = false;
     dropDownMenu.hoveredOption = -1;
-    dropDownMenu.selectedOption = selectedDay;
+    dropDownMenu.selectedOption = currentDay;
     dropDownMenu.options = {
         "Monday",
         "Tuesday",
@@ -25,15 +31,15 @@ void OpenNewWindow(int buttonIndex, int screenWidth, int screenHeight)
         "Thursday",
         "Friday",
         "Saturday",
-        "Sunday"
+        "Sunday",
     };
 
     // Load the movie textures and create the movies vector
     std::vector<Movie> movies = {
-        { "Shrek 2", "Comedy/Family", "9:00 PM", LoadTexture("../resources/Shrek.png") },
-        { "The Martian", "Sci-fi/Adventure", "10:30 AM", LoadTexture("../resources/TheMartian.png") },
-        { "The Batman", "Action/Adventure", "1:00 PM", LoadTexture("../resources/TheBatman.png") },
-        { "WALL-E", "Family/Adventure", "3:30 PM", LoadTexture("../resources/WallE.png") },
+        { "Shrek 2", "Comedy/Family", "9:00 PM", LoadTexture("../resources/Shrek.png"), { 2, 5 } }, // Tuesday, Friday
+        { "The Martian", "Sci-fi/Adventure", "10:30 AM", LoadTexture("../resources/TheMartian.png"), { 1, 4, 6 } }, // Monday, Thursday, Saturday
+        { "The Batman", "Action/Adventure", "1:00 PM", LoadTexture("../resources/TheBatman.png"), { 0, 3, 5 } }, // Sunday, Wednesday, Friday
+        { "WALL-E", "Family/Adventure", "3:30 PM", LoadTexture("../resources/WallE.png"), { 1, 2, 4, 6 } } // Monday, Tuesday, Thursday, Saturday
     };
 
     // Enter the new window's main loop
@@ -77,6 +83,9 @@ void OpenNewWindow(int buttonIndex, int screenWidth, int screenHeight)
 
         BeginDrawing();
         ClearBackground(RAYWHITE);
+
+        // Draw the current day of the week
+        DrawText(("Today is: " + std::string(dropDownMenu.options[currentDay])).c_str(), 10, 10, 20, BLACK);
 
         // Draw content specific to the new window
         switch (buttonIndex)

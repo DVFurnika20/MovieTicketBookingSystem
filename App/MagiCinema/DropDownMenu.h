@@ -19,6 +19,7 @@ struct Movie {
     std::string genre;
     std::string showtime;
     Texture2D image;
+    std::vector<int> screeningDays;
 };
 
 // Function to open a new window based on the button index

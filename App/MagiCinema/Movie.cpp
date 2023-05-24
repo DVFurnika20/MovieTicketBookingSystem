@@ -19,19 +19,6 @@ void DrawMovies(int screenWidth, int screenHeight, int selectedDay, const vector
     DrawRectangle(dropdownX, dropdownY, dropdownWidth, dropdownHeight, LIGHTGRAY);
     DrawText("Select Day", dropdownX + dropdownPadding, dropdownY + dropdownPadding, 20, BLACK);
 
-    // Get the current day of the week
-    time_t currentTime = time(nullptr);
-    tm localTime;
-    localtime_s(&localTime, &currentTime);
-    int currentDay = localTime.tm_wday; // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
-
-    // Get the corresponding day of the week text
-    const char* dayOfWeekText[] = {
-        "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
-    };
-
-    // Draw the current day of the week
-    DrawText(("Today is: " + string(dayOfWeekText[currentDay])).c_str(), 10, 10, 20, BLACK);
 
     // Draw the selected option
     DrawRectangle(dropdownX, dropdownY, dropdownWidth, dropdownHeight, GRAY);
@@ -43,15 +30,29 @@ void DrawMovies(int screenWidth, int screenHeight, int selectedDay, const vector
     const int movieTitleOffsetX = moviePadding + movieImageSize - 20;
     const int movieShowtimeOffsetX = movieTitleOffsetX + 200; // Adjust the value here to shift the movie information
 
-    for (int i = 0; i < movies.size(); i++)
+    std::vector<Movie> filteredMovies;
+    for (const Movie& movie : movies)
+    {
+        if (std::find(movie.screeningDays.begin(), movie.screeningDays.end(), selectedDay) != movie.screeningDays.end())
+        {
+            filteredMovies.push_back(movie);
+        }
+    }
+    
+
+    for (int i = 0; i < filteredMovies.size(); i++)
     {
         int movieY = dropdownY + dropdownHeight + movieSpacing + (movieImageSize + movieSpacing + moviePadding) * i;
 
+        float imageAspectRatio = static_cast<float>(filteredMovies[i].image.width) / filteredMovies[i].image.height;
+        float targetImageHeight = static_cast<float>(movieImageSize);
+        float targetImageWidth = targetImageHeight * imageAspectRatio;
+
         // Draw movie image with fixed size
         DrawTexturePro(
-            movies[i].image,
-            { 0, 0, (float)movies[i].image.width, (float)movies[i].image.height }, // Source rectangle (full image)
-            { 100, (float)movieY, 400, movieImageSize }, // Destination rectangle (fixed size)
+            filteredMovies[i].image,
+            { 0, 0, static_cast<float>(filteredMovies[i].image.width), static_cast<float>(filteredMovies[i].image.height) }, // Source rectangle (full image)
+            { 100, static_cast<float>(movieY), targetImageWidth, targetImageHeight }, // Destination rectangle (fixed size)
             { 0, 0 }, // Origin (default origin)
             0, // Rotation angle (no rotation)
             WHITE);
