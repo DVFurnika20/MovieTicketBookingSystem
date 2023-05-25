@@ -17,6 +17,7 @@ struct DropDownMenu
 struct Movie {
     std::string title;
     std::string genre;
+    std::string releaseDate;
     std::string showtime;
     Texture2D image;
     std::vector<int> screeningDays;

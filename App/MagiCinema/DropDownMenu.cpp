@@ -36,10 +36,10 @@ void OpenNewWindow(int buttonIndex, int screenWidth, int screenHeight)
 
     // Load the movie textures and create the movies vector
     std::vector<Movie> movies = {
-        { "Shrek 2", "Comedy/Family", "9:00 PM", LoadTexture("../resources/Shrek.png"), { 2, 5 } }, // Tuesday, Friday
-        { "The Martian", "Sci-fi/Adventure", "10:30 AM", LoadTexture("../resources/TheMartian.png"), { 1, 4, 6 } }, // Monday, Thursday, Saturday
-        { "The Batman", "Action/Adventure", "1:00 PM", LoadTexture("../resources/TheBatman.png"), { 0, 3, 5 } }, // Sunday, Wednesday, Friday
-        { "WALL-E", "Family/Adventure", "3:30 PM", LoadTexture("../resources/WallE.png"), { 1, 2, 4, 6 } } // Monday, Tuesday, Thursday, Saturday
+        { "Shrek 2", "Comedy/Family", "May 18, 2004", "9:00 PM", LoadTexture("../resources/Shrek.png"), { 2, 5 } }, // Wednesday, Saturday
+        { "The Martian", "Sci-fi/Adventure", "October 2, 2015", "10:30 AM", LoadTexture("../resources/TheMartian.png"), { 1, 4, 6 } }, // Tuesday, Friday, Sunday
+        { "The Batman", "Action/Adventure", "March 4, 2022", "1:00 PM", LoadTexture("../resources/TheBatman.png"), { 0, 3, 5 } }, // Monday, Thursday, Saturday
+        { "WALL-E", "Family/Adventure", "June 27, 2008", "3:30 PM", LoadTexture("../resources/WallE.png"), { 1, 2, 4, 6 } } // Tuesday, Wednesday, Friday, Sunday
     };
 
     // Enter the new window's main loop

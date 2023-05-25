@@ -63,6 +63,10 @@ void DrawMovies(int screenWidth, int screenHeight, int selectedDay, const vector
         // Draw movie genre
         DrawText(("Genre: " + movies[i].genre).c_str(), movieTitleOffsetX + 400, movieY + moviePadding * 2 + 35, 20, BLACK);
 
+        // Draw movie release date
+        const std::string releaseDate = "Release Date: " + movies[i].releaseDate;
+        DrawText(releaseDate.c_str(), movieTitleOffsetX + 400, movieY + moviePadding * 3 + 55, 20, BLACK);
+
         // Draw movie showtime
         DrawText(("Showtime: " + movies[i].showtime).c_str(), movieShowtimeOffsetX + 575, movieY + moviePadding + 15, 20, BLACK);
     }
