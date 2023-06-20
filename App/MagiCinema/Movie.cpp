@@ -5,7 +5,7 @@ using namespace std;
 // Fixed size for loaded textures
 const int movieImageSize = 180;
 
-void DrawMovies(int screenWidth, int screenHeight, int selectedDay, const vector<Movie>& movies)
+void DrawMovies(int screenWidth, int screenHeight, int selectedDay, const DropDownMenu& genreDropDownMenu, const std::vector<Movie>& movies)
 {
 
     // Dropdown menu properties
@@ -30,10 +30,13 @@ void DrawMovies(int screenWidth, int screenHeight, int selectedDay, const vector
     const int movieTitleOffsetX = moviePadding + movieImageSize - 20;
     const int movieShowtimeOffsetX = movieTitleOffsetX + 200; // Adjust the value here to shift the movie information
 
+    int selectedGenre = genreDropDownMenu.selectedOption;
+
     std::vector<Movie> filteredMovies;
     for (const Movie& movie : movies)
     {
-        if (std::find(movie.screeningDays.begin(), movie.screeningDays.end(), selectedDay) != movie.screeningDays.end())
+        if (std::find(movie.screeningDays.begin(), movie.screeningDays.end(), selectedDay) != movie.screeningDays.end() &&
+            (selectedGenre == 0 || movie.genre.find(genreDropDownMenu.options[selectedGenre]) != std::string::npos))
         {
             filteredMovies.push_back(movie);
         }

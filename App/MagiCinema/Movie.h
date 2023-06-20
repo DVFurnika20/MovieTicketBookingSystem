@@ -6,4 +6,4 @@
 #include "DropDownMenu.h"
 
 // Function to draw the movies list
-void DrawMovies(int screenWidth, int screenHeight, int selectedDay, const std::vector<Movie>& movies);
+void DrawMovies(int screenWidth, int screenHeight, int selectedDay, const DropDownMenu& genreDropDownMenu, const std::vector<Movie>& movies);

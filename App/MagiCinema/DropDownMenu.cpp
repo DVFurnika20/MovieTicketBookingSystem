@@ -152,7 +152,7 @@ void OpenNewWindow(int buttonIndex, int screenWidth, int screenHeight)
         {
         case 0:
             // Draw the movies
-            DrawMovies(screenWidth, screenHeight, dropDownMenu.selectedOption, movies);
+            DrawMovies(screenWidth, screenHeight, dropDownMenu.selectedOption, genreDropDownMenu, movies);
 
             // Draw the drop-down menu
             DrawRectangleRec(dropDownMenu.buttonRect, GRAY);
