@@ -34,6 +34,23 @@ void OpenNewWindow(int buttonIndex, int screenWidth, int screenHeight)
         "Sunday",
     };
 
+    // Initialize the drop-down menu for genres
+    DropDownMenu genreDropDownMenu;
+    genreDropDownMenu.buttonRect = { (float)(screenWidth - 200 - 250), 10, 200, 30 };
+    genreDropDownMenu.menuRect = { (float)(screenWidth - 200 - 250), 10 + 30 + 10, 200, 30 };
+    genreDropDownMenu.isOpen = false;
+    genreDropDownMenu.hoveredOption = -1;
+    genreDropDownMenu.selectedOption = 0;
+    genreDropDownMenu.options = {
+        "All Genres",
+        "Comedy",
+        "Family",
+        "Sci-fi",
+        "Adventure",
+        "Action",
+    };
+
+
     // Load the movie textures and create the movies vector
     std::vector<Movie> movies = {
         { "Shrek 2", "Comedy/Family", "May 18, 2004", "9:00 PM", LoadTexture("../resources/Shrek.png"), { 2, 5 } }, // Wednesday, Saturday
@@ -81,11 +98,54 @@ void OpenNewWindow(int buttonIndex, int screenWidth, int screenHeight)
             dropDownMenu.hoveredOption = -1;
         }
 
+        // Update the drop-down menu for genres
+        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+        {
+            if (CheckCollisionPointRec(GetMousePosition(), genreDropDownMenu.buttonRect))
+            {
+                genreDropDownMenu.isOpen = !genreDropDownMenu.isOpen;
+            }
+            else if (genreDropDownMenu.isOpen)
+            {
+                for (size_t i = 0; i < genreDropDownMenu.options.size(); i++)
+                {
+                    Rectangle optionRect = {
+                        genreDropDownMenu.menuRect.x,
+                        genreDropDownMenu.menuRect.y + i * genreDropDownMenu.menuRect.height,
+                        genreDropDownMenu.menuRect.width,
+                        genreDropDownMenu.menuRect.height
+                    };
+
+                    if (CheckCollisionPointRec(GetMousePosition(), optionRect))
+                    {
+                        genreDropDownMenu.selectedOption = static_cast<int>(i);
+                        genreDropDownMenu.isOpen = false;
+                        break;
+                    }
+                }
+            }
+        }
+        else if (IsKeyPressed(KEY_DOWN) && genreDropDownMenu.isOpen)
+        {
+            genreDropDownMenu.hoveredOption = (genreDropDownMenu.hoveredOption + 1) % genreDropDownMenu.options.size();
+        }
+        else if (IsKeyPressed(KEY_UP) && genreDropDownMenu.isOpen)
+        {
+            genreDropDownMenu.hoveredOption = (genreDropDownMenu.hoveredOption - 1 + genreDropDownMenu.options.size()) % genreDropDownMenu.options.size();
+        }
+        else
+        {
+            genreDropDownMenu.hoveredOption = -1;
+        }
+
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
         // Draw the current day of the week
         DrawText(("Today is: " + std::string(dropDownMenu.options[currentDay])).c_str(), 10, 10, 20, BLACK);
+
+        // Draw the current day of the week
+        DrawText("Sort by: ", (float)(screenWidth - 200 - 375), 15, 20, BLACK);
 
         // Draw content specific to the new window
         switch (buttonIndex)
@@ -116,6 +176,36 @@ void OpenNewWindow(int buttonIndex, int screenWidth, int screenHeight)
                     }
 
                     DrawText(dropDownMenu.options[i].c_str(), optionRect.x + 10, optionRect.y + 7, 20, BLACK);
+                }
+            }
+
+            // Draw the genre dropdown menu
+            DrawRectangleRec(genreDropDownMenu.buttonRect, GRAY);
+            DrawText(genreDropDownMenu.options[genreDropDownMenu.selectedOption].c_str(),
+                genreDropDownMenu.buttonRect.x + 10, genreDropDownMenu.buttonRect.y + 7, 20, BLACK);
+
+            if (genreDropDownMenu.isOpen)
+            {
+                DrawRectangleRec(genreDropDownMenu.menuRect, RAYWHITE);
+
+                for (size_t i = 0; i < genreDropDownMenu.options.size(); i++)
+                {
+                    Rectangle optionRect = {
+                        genreDropDownMenu.menuRect.x,
+                        genreDropDownMenu.menuRect.y + i * genreDropDownMenu.menuRect.height,
+                        genreDropDownMenu.menuRect.width,
+                        genreDropDownMenu.menuRect.height
+                    };
+
+                    bool isOptionHovered = CheckCollisionPointRec(GetMousePosition(), optionRect);
+
+                    if (isOptionHovered || static_cast<int>(i) == genreDropDownMenu.hoveredOption)
+                    {
+                        DrawRectangleRec(optionRect, LIGHTGRAY);
+                        genreDropDownMenu.hoveredOption = static_cast<int>(i);
+                    }
+
+                    DrawText(genreDropDownMenu.options[i].c_str(), optionRect.x + 10, optionRect.y + 7, 20, BLACK);
                 }
             }
 
