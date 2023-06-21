@@ -1,4 +1,5 @@
 #include "DropDownMenu.h"
+#include "MovieData.h"
 #include "Movie.h"
 
 void OpenNewWindow(int buttonIndex, int screenWidth, int screenHeight)
@@ -50,7 +51,10 @@ void OpenNewWindow(int buttonIndex, int screenWidth, int screenHeight)
         "Action",
     };
 
+    
+    std::vector<Movie> movies = GetMovieData();
 
+    /*
     // Load the movie textures and create the movies vector
     std::vector<Movie> movies = {
         { "Shrek 2", "Comedy/Family", "May 18, 2004", "9:00 PM", LoadTexture("../resources/Shrek.png"), { 0, 2, 6 } }, // Monday, Wednesday, Sunday
@@ -61,7 +65,7 @@ void OpenNewWindow(int buttonIndex, int screenWidth, int screenHeight)
         { "Blade Runner 2049", "Sci-fi/Action", "October 6, 2017", "9:40 AM", LoadTexture("../resources/blade-runner-2049-main.png"), { 0, 3, 6 }}, // Monday, Thursday, Sunday
         { "The Matrix", "Action/Sci-fi", "September 3, 1999", "12:30 PM", LoadTexture("../resources/TheMatrix.png"), { 0, 2, 5 } }, // Monday, Wednesday, Saturday
         { "Jurassic Park", "Sci-fi/Adventure", "September 17, 1993", "13:10 PM", LoadTexture("../resources/jurassic-park-classic-logo.png"), { 1, 3, 4, 5 } } // Tuesday, Thursday, Friday, Saturday
-    };
+    };*/
 
     // Enter the new window's main loop
     while (!WindowShouldClose())

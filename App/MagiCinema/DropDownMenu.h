@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "raylib.h"
+#include "MovieData.h"
 
 struct DropDownMenu
 {
@@ -12,15 +13,6 @@ struct DropDownMenu
     int hoveredOption;
     int selectedOption;
     std::vector<std::string> options;
-};
-
-struct Movie {
-    std::string title;
-    std::string genre;
-    std::string releaseDate;
-    std::string showtime;
-    Texture2D image;
-    std::vector<int> screeningDays;
 };
 
 // Function to open a new window based on the button index
