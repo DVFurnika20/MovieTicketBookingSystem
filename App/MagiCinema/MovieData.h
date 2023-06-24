@@ -2,6 +2,7 @@
 
 #include <vector>
 #include "raylib.h"
+#include <sqlite3.h>
 #include <string>
 
 struct Movie {

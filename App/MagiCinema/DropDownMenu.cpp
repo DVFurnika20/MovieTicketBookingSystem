@@ -9,6 +9,7 @@ void OpenNewWindow(int buttonIndex, int screenWidth, int screenHeight)
     // Open a new window with the appropriate title
     const char* windowTitle = (buttonIndex == 0) ? "Movies" : "Book a Ticket";
     InitWindow(screenWidth, screenHeight, windowTitle);
+    SetTargetFPS(60);
 
     int selectedDay = 0;
 
@@ -149,16 +150,16 @@ void OpenNewWindow(int buttonIndex, int screenWidth, int screenHeight)
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
-        // Draw the current day of the week
-        DrawText(("Today is: " + std::string(dropDownMenu.options[currentDay])).c_str(), 10, 10, 20, BLACK);
-
-        // Draw the current day of the week
-        DrawText("Sort by: ", (float)(screenWidth - 200 - 375), 15, 20, BLACK);
-
         // Draw content specific to the new window
         switch (buttonIndex)
         {
         case 0:
+            // Draw the current day of the week
+            DrawText(("Today is: " + std::string(dropDownMenu.options[currentDay])).c_str(), 10, 10, 20, BLACK);
+
+            // Draw the current day of the week
+            DrawText("Sort by: ", (float)(screenWidth - 200 - 375), 15, 20, BLACK);
+            
             // Draw the movies
             DrawMovies(screenWidth, screenHeight, dropDownMenu.selectedOption, genreDropDownMenu, movies);
 

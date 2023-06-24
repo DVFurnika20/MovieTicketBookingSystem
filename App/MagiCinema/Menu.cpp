@@ -6,7 +6,7 @@
 void RunMenu(int screenWidth, int screenHeight)
 {
     InitWindow(screenWidth, screenHeight, "Basic Window");
-
+    SetTargetFPS(60);
     // Button properties
     const int buttonWidth = 200;
     const int buttonHeight = 50;
