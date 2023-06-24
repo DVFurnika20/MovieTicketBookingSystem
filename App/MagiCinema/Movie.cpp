@@ -19,7 +19,6 @@ void DrawMovies(int screenWidth, int screenHeight, int selectedDay, const DropDo
     DrawRectangle(dropdownX, dropdownY, dropdownWidth, dropdownHeight, LIGHTGRAY);
     DrawText("Select Day", dropdownX + dropdownPadding, dropdownY + dropdownPadding, 20, BLACK);
 
-
     // Draw the selected option
     DrawRectangle(dropdownX, dropdownY, dropdownWidth, dropdownHeight, GRAY);
     DrawText(("Day " + to_string(selectedDay + 1)).c_str(), dropdownX + dropdownPadding, dropdownY + dropdownPadding, 20, BLACK);
@@ -41,7 +40,6 @@ void DrawMovies(int screenWidth, int screenHeight, int selectedDay, const DropDo
             filteredMovies.push_back(movie);
         }
     }
-    
 
     for (int i = 0; i < filteredMovies.size(); i++)
     {
@@ -72,6 +70,37 @@ void DrawMovies(int screenWidth, int screenHeight, int selectedDay, const DropDo
 
         // Draw movie showtime
         DrawText(("Showtime: " + filteredMovies[i].showtime).c_str(), movieShowtimeOffsetX + 575, movieY + moviePadding + 15, 20, BLACK);
-    }
 
+        // Define button properties
+        const int buttonWidth = 180;
+        const int buttonHeight = 35;
+        const int buttonOffsetX = movieShowtimeOffsetX + 875;
+        const int buttonOffsetY = movieY + moviePadding * 3;
+
+        // Create button rectangle
+        Rectangle buttonRect = { buttonOffsetX, buttonOffsetY, buttonWidth, buttonHeight };
+
+        // Check if the mouse is hovering over the button
+        bool isHovered = CheckCollisionPointRec(GetMousePosition(), buttonRect);
+
+        // Check if the button is being clicked
+        bool isClicked = isHovered && IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
+
+        // Adjust button color based on state
+        Color buttonColor = isClicked ? GRAY : (isHovered ? MAROON : RED);
+
+        // Draw button rectangle
+        DrawRectangleRec(buttonRect, buttonColor);
+
+        // Draw button text
+        DrawText("Book a Ticket", buttonRect.x + 10, buttonRect.y + 7, 23, WHITE);
+
+        // Handle button click
+        if (isClicked)
+        {
+            CloseWindow();
+            // Perform booking action
+            BookTicket(filteredMovies[i]);
+        }
+    }
 }

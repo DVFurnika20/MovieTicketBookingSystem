@@ -26,6 +26,7 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Movie.cpp" />
     <ClCompile Include="MovieData.cpp" />
+    <ClCompile Include="TicketBook.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DropDownMenu.h" />
@@ -33,6 +34,7 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Movie.h" />
     <ClInclude Include="MovieData.h" />
+    <ClInclude Include="TicketBook.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

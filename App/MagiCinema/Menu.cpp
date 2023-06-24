@@ -5,7 +5,8 @@
 
 void RunMenu(int screenWidth, int screenHeight)
 {
-    InitWindow(screenWidth, screenHeight, "Basic Window");
+    
+    InitWindow(screenWidth, screenHeight, "Main menu");
     SetTargetFPS(60);
     // Button properties
     const int buttonWidth = 200;
@@ -38,7 +39,7 @@ void RunMenu(int screenWidth, int screenHeight)
         DrawLogo(logo, centerX, centerY, logoHeight);
 
         // Draw the buttons
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 2; i++)
         {
             int buttonY = centerY + (buttonHeight + buttonSpacing) * i;
 
@@ -57,21 +58,18 @@ void RunMenu(int screenWidth, int screenHeight)
                 DrawText("Movies", centerX + buttonWidth / 2 - MeasureText("Movies", 20) / 2, buttonY + buttonHeight / 2 - 10, 20, WHITE);
                 break;
             case 1:
-                DrawText("Book a ticket", centerX + buttonWidth / 2 - MeasureText("Book a ticket", 20) / 2, buttonY + buttonHeight / 2 - 10, 20, WHITE);
-                break;
-            case 2:
                 DrawText("Exit", centerX + buttonWidth / 2 - MeasureText("Exit", 20) / 2, buttonY + buttonHeight / 2 - 10, 20, WHITE);
                 break;
             }
 
             // Check if the button is clicked
             if (isMouseOver && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-                if (i == 0 || i == 1) {
+                if (i == 0) {
                     OpenNewWindow(i, screenWidth, screenHeight);
                     isLogoLoaded = false;  // Reset the flag to reload the logo when returning to the menu
                     break;
                 }
-                else if (i == 2) {
+                else if (i == 1) {
                     CloseWindow();
                     exit(0);
                 }

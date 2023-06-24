@@ -3,6 +3,7 @@
 #include <string>
 #include <ctime>
 #include "raylib.h"
+#include "TicketBook.h"
 #include "DropDownMenu.h"
 
 // Function to draw the movies list
