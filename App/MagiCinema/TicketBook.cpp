@@ -1,5 +1,4 @@
 #include "TicketBook.h"
-#include "raylib.h"
 
 // Fixed size for loaded textures
 const int movieImageSize = 180;
@@ -27,9 +26,7 @@ void BookTicket(const Movie& movie)
     const int textBoxX = screenWidth / 2 - textBoxWidth / 2;
     const int textBoxY = 400;
 
-    const int secondTextBoxY = textBoxY + 60;
-    const int thirdTextBoxY = textBoxY + 120;
-    const int fourthTextBoxY = textBoxY + 180;
+    const int thirdTextBoxY = textBoxY + 180;
 
     InitWindow(screenWidth, screenHeight, "Movie Ticket Booking");
     SetTargetFPS(60);
@@ -48,6 +45,23 @@ void BookTicket(const Movie& movie)
     char fourthName[256] = "";
     int fourthNameLetterCount = 0;
 
+    // Initialize the drop-down menu for showtimes
+    DropDownMenu showtimeDropDownMenu;
+    showtimeDropDownMenu.buttonRect = { static_cast<float>(textBoxX - 350), thirdTextBoxY + 120, 200, 30 };
+    showtimeDropDownMenu.menuRect = { static_cast<float>(textBoxX - 350), thirdTextBoxY + 130, 200, 30 };
+    showtimeDropDownMenu.isOpen = false;
+    showtimeDropDownMenu.hoveredOption = -1;
+    showtimeDropDownMenu.selectedOption = 0;
+    showtimeDropDownMenu.options = {
+        "9:40 AM",
+        "10:30 AM",
+        "12:30 PM",
+        "13:00 PM",
+        "13:40 PM",
+        "15:30 PM",
+        "21:00 PM"
+    };
+
     while (!WindowShouldClose())
     {
         BeginDrawing();
@@ -55,9 +69,8 @@ void BookTicket(const Movie& movie)
 
         int movieY = 60;
 
-        float imageAspectRatio = static_cast<float>(movie.image.width) / movie.image.height;
-        float targetImageHeight = static_cast<float>(movieImageSize);
-        float targetImageWidth = targetImageHeight * imageAspectRatio;
+        // Draw the header text
+        DrawText("Book a ticket", screenWidth / 2 - MeasureText("Book a ticket", 40) / 2, 20, 40, BLACK);
 
         // Draw movie title
         DrawText(movie.title.c_str(), movieTitleOffsetX, movieY, 20, BLACK);
@@ -68,9 +81,6 @@ void BookTicket(const Movie& movie)
         // Draw movie release date
         const std::string releaseDate = "Release Date: " + movie.releaseDate;
         DrawText(releaseDate.c_str(), movieTitleOffsetX, movieY + moviePadding * 3 + 55, 20, BLACK);
-
-        // Draw movie showtime
-        DrawText(("Showtime: " + movie.showtime).c_str(), movieShowtimeOffsetX + 175, movieY + moviePadding + 15, 20, BLACK);
 
         // Draw the "Back" button
         Rectangle backButtonRect = { 20, screenHeight - 70, 210, 40 };
@@ -100,7 +110,7 @@ void BookTicket(const Movie& movie)
         }
 
         // Mouse and keyboard input for the first name text box
-        if (CheckCollisionPointRec(GetMousePosition(), { static_cast<float>(textBoxX), static_cast<float>(textBoxY), static_cast<float>(textBoxWidth), static_cast<float>(textBoxHeight) }))
+        if (CheckCollisionPointRec(GetMousePosition(), { static_cast<float>(textBoxX) - 700, static_cast<float>(textBoxY), static_cast<float>(textBoxWidth), static_cast<float>(textBoxHeight) }))
         {
             // Same logic as before
             mouseOnText = true;
@@ -110,7 +120,7 @@ void BookTicket(const Movie& movie)
 
             while (key > 0)
             {
-                if ((key >= 32) && (key <= 125) && (letterCount < 24))
+                if ((key >= 32) && (key <= 125) && (letterCount < 23))
                 {
                     firstName[letterCount] = static_cast<char>(key);
                     firstName[letterCount + 1] = '\0';
@@ -134,7 +144,7 @@ void BookTicket(const Movie& movie)
         }
 
         // Mouse and keyboard input for the second name text box
-        if (CheckCollisionPointRec(GetMousePosition(), { static_cast<float>(textBoxX), static_cast<float>(secondTextBoxY), static_cast<float>(textBoxWidth), static_cast<float>(textBoxHeight) }))
+        if (CheckCollisionPointRec(GetMousePosition(), { static_cast<float>(textBoxX) - 240, static_cast<float>(textBoxY), static_cast<float>(textBoxWidth), static_cast<float>(textBoxHeight) }))
         {
             // Same logic as before
             mouseOnText = true;
@@ -144,7 +154,7 @@ void BookTicket(const Movie& movie)
 
             while (key > 0)
             {
-                if ((key >= 32) && (key <= 125) && (secondNameLetterCount < 24))
+                if ((key >= 32) && (key <= 125) && (secondNameLetterCount < 23))
                 {
                     secondName[secondNameLetterCount] = static_cast<char>(key);
                     secondName[secondNameLetterCount + 1] = '\0';
@@ -168,7 +178,7 @@ void BookTicket(const Movie& movie)
         }
 
         // Mouse and keyboard input for the third name text box
-        if (CheckCollisionPointRec(GetMousePosition(), { static_cast<float>(textBoxX), static_cast<float>(thirdTextBoxY), static_cast<float>(textBoxWidth), static_cast<float>(textBoxHeight) }))
+        if (CheckCollisionPointRec(GetMousePosition(), { static_cast<float>(textBoxX) - 700, static_cast<float>(thirdTextBoxY), static_cast<float>(textBoxWidth), static_cast<float>(textBoxHeight) }))
         {
             // Same logic as before
             mouseOnText = true;
@@ -178,7 +188,7 @@ void BookTicket(const Movie& movie)
 
             while (key > 0)
             {
-                if ((key >= 32) && (key <= 125) && (thirdNameLetterCount < 24))
+                if ((key >= 32) && (key <= 125) && (thirdNameLetterCount < 23))
                 {
                     thirdName[thirdNameLetterCount] = static_cast<char>(key);
                     thirdName[thirdNameLetterCount + 1] = '\0';
@@ -202,7 +212,7 @@ void BookTicket(const Movie& movie)
         }
 
         // Mouse and keyboard input for the fourth name text box
-        if (CheckCollisionPointRec(GetMousePosition(), { static_cast<float>(textBoxX), static_cast<float>(fourthTextBoxY), static_cast<float>(textBoxWidth), static_cast<float>(textBoxHeight) }))
+        if (CheckCollisionPointRec(GetMousePosition(), { static_cast<float>(textBoxX) - 240, static_cast<float>(thirdTextBoxY), static_cast<float>(textBoxWidth), static_cast<float>(textBoxHeight) }))
         {
             // Same logic as before
             mouseOnText = true;
@@ -212,7 +222,7 @@ void BookTicket(const Movie& movie)
 
             while (key > 0)
             {
-                if ((key >= 32) && (key <= 125) && (fourthNameLetterCount < 24))
+                if ((key >= 32) && (key <= 125) && (fourthNameLetterCount < 23))
                 {
                     fourthName[fourthNameLetterCount] = static_cast<char>(key);
                     fourthName[fourthNameLetterCount + 1] = '\0';
@@ -236,24 +246,100 @@ void BookTicket(const Movie& movie)
         }
 
         // Draw the first name text box
-        DrawRectangleRounded({ static_cast<float>(textBoxX), static_cast<float>(textBoxY), static_cast<float>(textBoxWidth), static_cast<float>(textBoxHeight) }, 1.0f, 8, GRAY);
-        DrawRectangleRoundedLines({ static_cast<float>(textBoxX), static_cast<float>(textBoxY), static_cast<float>(textBoxWidth), static_cast<float>(textBoxHeight) }, 0, 1.0f, 0, DARKGRAY);
-        DrawText(firstName, textBoxX + textBoxPadding + 8, textBoxY + textBoxHeight / 2 - 10, 20, BLACK);
+        DrawRectangleRounded({ static_cast<float>(textBoxX) - 700, static_cast<float>(textBoxY), static_cast<float>(textBoxWidth), static_cast<float>(textBoxHeight) }, 1.0f, 8, GRAY);
+        DrawRectangleRoundedLines({ static_cast<float>(textBoxX) - 700, static_cast<float>(textBoxY), static_cast<float>(textBoxWidth), static_cast<float>(textBoxHeight) }, 0, 1.0f, 0, DARKGRAY);
+        DrawText("First name:", textBoxX + textBoxPadding - 700, textBoxY - 30, 20, BLACK); // Label for the first name text box
+        DrawText(firstName, textBoxX + textBoxPadding + 8 - 700, textBoxY + textBoxHeight / 2 - 10, 20, BLACK);
 
         // Draw the second name text box
-        DrawRectangleRounded({ static_cast<float>(textBoxX), static_cast<float>(secondTextBoxY), static_cast<float>(textBoxWidth), static_cast<float>(textBoxHeight) }, 1.0f, 8, GRAY);
-        DrawRectangleRoundedLines({ static_cast<float>(textBoxX), static_cast<float>(secondTextBoxY), static_cast<float>(textBoxWidth), static_cast<float>(textBoxHeight) }, 0, 1.0f, 0, DARKGRAY);
-        DrawText(secondName, textBoxX + textBoxPadding + 8, secondTextBoxY + textBoxHeight / 2 - 10, 20, BLACK);
+        DrawRectangleRounded({ static_cast<float>(textBoxX) - 240, static_cast<float>(textBoxY), static_cast<float>(textBoxWidth), static_cast<float>(textBoxHeight) }, 1.0f, 8, GRAY);
+        DrawRectangleRoundedLines({ static_cast<float>(textBoxX) - 240, static_cast<float>(textBoxY), static_cast<float>(textBoxWidth), static_cast<float>(textBoxHeight) }, 0, 1.0f, 0, DARKGRAY);
+        DrawText("Surname:", textBoxX + textBoxPadding - 240, textBoxY - 30, 20, BLACK); // Label for the second name text box
+        DrawText(secondName, textBoxX + textBoxPadding + 8 - 240, textBoxY + textBoxHeight / 2 - 10, 20, BLACK);
 
         // Draw the third name text box
-        DrawRectangleRounded({ static_cast<float>(textBoxX), static_cast<float>(thirdTextBoxY), static_cast<float>(textBoxWidth), static_cast<float>(textBoxHeight) }, 1.0f, 8, GRAY);
-        DrawRectangleRoundedLines({ static_cast<float>(textBoxX), static_cast<float>(thirdTextBoxY), static_cast<float>(textBoxWidth), static_cast<float>(textBoxHeight) }, 0, 1.0f, 0, DARKGRAY);
-        DrawText(thirdName, textBoxX + textBoxPadding + 8, thirdTextBoxY + textBoxHeight / 2 - 10, 20, BLACK);
+        DrawRectangleRounded({ static_cast<float>(textBoxX) - 700, static_cast<float>(thirdTextBoxY), static_cast<float>(textBoxWidth), static_cast<float>(textBoxHeight) }, 1.0f, 8, GRAY);
+        DrawRectangleRoundedLines({ static_cast<float>(textBoxX) - 700, static_cast<float>(thirdTextBoxY), static_cast<float>(textBoxWidth), static_cast<float>(textBoxHeight) }, 0, 1.0f, 0, DARKGRAY);
+        DrawText("E-mail adress:", textBoxX + textBoxPadding - 700, thirdTextBoxY - 30, 20, BLACK); // Label for the third name text box
+        DrawText(thirdName, textBoxX + textBoxPadding + 8 - 700, thirdTextBoxY + textBoxHeight / 2 - 10, 20, BLACK);
 
         // Draw the fourth name text box
-        DrawRectangleRounded({ static_cast<float>(textBoxX), static_cast<float>(fourthTextBoxY), static_cast<float>(textBoxWidth), static_cast<float>(textBoxHeight) }, 1.0f, 8, GRAY);
-        DrawRectangleRoundedLines({ static_cast<float>(textBoxX), static_cast<float>(fourthTextBoxY), static_cast<float>(textBoxWidth), static_cast<float>(textBoxHeight) }, 0, 1.0f, 0, DARKGRAY);
-        DrawText(fourthName, textBoxX + textBoxPadding + 8, fourthTextBoxY + textBoxHeight / 2 - 10, 20, BLACK);
+        DrawRectangleRounded({ static_cast<float>(textBoxX) - 240, static_cast<float>(thirdTextBoxY), static_cast<float>(textBoxWidth), static_cast<float>(textBoxHeight) }, 1.0f, 8, GRAY);
+        DrawRectangleRoundedLines({ static_cast<float>(textBoxX) - 240, static_cast<float>(thirdTextBoxY), static_cast<float>(textBoxWidth), static_cast<float>(textBoxHeight) }, 0, 1.0f, 0, DARKGRAY);
+        DrawText("Phone number:", textBoxX + textBoxPadding - 240, thirdTextBoxY - 30, 20, BLACK); // Label for the fourth name text box
+        DrawText(fourthName, textBoxX + textBoxPadding + 8 - 240, thirdTextBoxY + textBoxHeight / 2 - 10, 20, BLACK);
+
+        // Draw the drop-down menu for showtimes
+        DrawRectangleRec(showtimeDropDownMenu.buttonRect, GRAY);
+        DrawText(showtimeDropDownMenu.options[showtimeDropDownMenu.selectedOption].c_str(),
+            showtimeDropDownMenu.buttonRect.x + 10, showtimeDropDownMenu.buttonRect.y + 7, 20, BLACK);
+
+        // Draw the showtime dropdown menu
+        DrawText("Select Showtime:", textBoxX - 530, thirdTextBoxY + 125, 20, BLACK);
+
+        mouseOnText = CheckCollisionPointRec(GetMousePosition(), { showtimeDropDownMenu.buttonRect.x, showtimeDropDownMenu.buttonRect.y, showtimeDropDownMenu.buttonRect.width, showtimeDropDownMenu.buttonRect.height });
+        if (mouseOnText)
+        {
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+            {
+                showtimeDropDownMenu.isOpen = !showtimeDropDownMenu.isOpen;
+            }
+        }
+
+        // Update the selected option when the menu is open
+        if (showtimeDropDownMenu.isOpen)
+        {
+            for (size_t i = 0; i < showtimeDropDownMenu.options.size(); i++)
+            {
+                Rectangle optionRect = { showtimeDropDownMenu.menuRect.x, showtimeDropDownMenu.menuRect.y + (dropdownHeight * (i + 1)), showtimeDropDownMenu.menuRect.width, dropdownHeight };
+
+                bool isHovered = CheckCollisionPointRec(GetMousePosition(), optionRect);
+                if (isHovered)
+                {
+                    showtimeDropDownMenu.hoveredOption = static_cast<int>(i);
+                    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+                    {
+                        showtimeDropDownMenu.isOpen = false;
+                        showtimeDropDownMenu.selectedOption = static_cast<int>(i);
+                    }
+                }
+            }
+        }
+        else
+        {
+            showtimeDropDownMenu.hoveredOption = -1;
+        }
+
+        // Draw the dropdown button
+        DrawRectangleRounded(showtimeDropDownMenu.buttonRect, 0.1, 5, LIGHTGRAY);
+        DrawText(showtimeDropDownMenu.options[showtimeDropDownMenu.selectedOption].c_str(), showtimeDropDownMenu.buttonRect.x + 10, showtimeDropDownMenu.buttonRect.y + 6, 20, BLACK);
+
+        // Draw the dropdown menu options
+        if (showtimeDropDownMenu.isOpen)
+        {
+            for (size_t i = 0; i < showtimeDropDownMenu.options.size(); i++)
+            {
+                Rectangle optionRect = { showtimeDropDownMenu.menuRect.x, showtimeDropDownMenu.menuRect.y + (dropdownHeight * (i + 1)), showtimeDropDownMenu.menuRect.width, dropdownHeight };
+
+                bool isHovered = showtimeDropDownMenu.hoveredOption == i;
+                bool isSelected = showtimeDropDownMenu.selectedOption == i;
+
+                if (isHovered && !isSelected)
+                {
+                    DrawRectangleRounded(optionRect, 0.1, 5, GRAY);
+                    DrawText(showtimeDropDownMenu.options[i].c_str(), optionRect.x + 10, optionRect.y + 6, 20, BLACK); // Default text color
+                }
+                else if (isSelected)
+                {
+                    DrawRectangleRounded(optionRect, 0.1, 5, DARKGRAY);
+                    DrawText(showtimeDropDownMenu.options[i].c_str(), optionRect.x + 10, optionRect.y + 6, 20, WHITE); // Change text color to white
+                }
+                else
+                {
+                    DrawText(showtimeDropDownMenu.options[i].c_str(), optionRect.x + 10, optionRect.y + 6, 20, BLACK); // Default text color
+                }
+            }
+        }
 
         EndDrawing();
     }

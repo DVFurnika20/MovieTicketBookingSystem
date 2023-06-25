@@ -53,7 +53,7 @@ std::vector<Movie> GetMovieData()
         { "WALL-E", "Family/Adventure", "June 27, 2008", "3:30 PM", LoadTexture("../resources/WallE.png"), { 1, 2, 4, 6 } },
         { "Blade Runner 2049", "Sci-fi/Action", "October 6, 2017", "9:40 AM", LoadTexture("../resources/blade-runner-2049-main.png"), { 0, 3, 6 }},
         { "The Matrix", "Action/Sci-fi", "September 3, 1999", "12:30 PM", LoadTexture("../resources/TheMatrix.png"), { 0, 2, 5 } },
-        { "Jurassic Park", "Sci-fi/Adventure", "September 17, 1993", "13:10 PM", LoadTexture("../resources/jurassic-park-classic-logo.png"), { 1, 3, 4, 5 } }
+        { "Jurassic Park", "Sci-fi/Adventure", "September 17, 1993", "13:40 PM", LoadTexture("../resources/jurassic-park-classic-logo.png"), { 1, 3, 4, 5 } }
     };
 
     for (const Movie& movie : movies)
