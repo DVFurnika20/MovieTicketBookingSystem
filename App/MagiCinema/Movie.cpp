@@ -68,9 +68,6 @@ void DrawMovies(int screenWidth, int screenHeight, int selectedDay, const DropDo
         const std::string releaseDate = "Release Date: " + filteredMovies[i].releaseDate;
         DrawText(releaseDate.c_str(), movieTitleOffsetX + 400, movieY + moviePadding * 3 + 55, 20, BLACK);
 
-        // Draw movie showtime
-        DrawText(("Showtime: " + filteredMovies[i].showtime).c_str(), movieShowtimeOffsetX + 575, movieY + moviePadding + 15, 20, BLACK);
-
         // Define button properties
         const int buttonWidth = 180;
         const int buttonHeight = 35;
