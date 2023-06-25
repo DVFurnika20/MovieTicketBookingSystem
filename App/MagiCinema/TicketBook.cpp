@@ -341,6 +341,51 @@ void BookTicket(const Movie& movie)
             }
         }
 
+        int SEAT_WIDTH = 40;
+        int SEAT_HEIGHT = 40;
+        int SEAT_MARGIN = 10;
+        int SEATS_PER_ROW = 6;
+        int selectedSeat = -1;  // Initialize selected seat to -1
+
+        // Calculate the position of the first seat
+        int startX = screenWidth / 2 - ((SEAT_WIDTH + SEAT_MARGIN) * SEATS_PER_ROW - SEAT_MARGIN) / 2 + 700;
+        int startY = screenHeight / 2 - ((SEAT_HEIGHT + SEAT_MARGIN) * (30 / SEATS_PER_ROW) - SEAT_MARGIN) / 2;
+
+        DrawText("Select seats: ", startX - 225, startY, 20, BLACK); // Label for selected seats
+
+        // Draw the seats
+        for (int i = 0; i < 30; i++) {
+            int row = i / SEATS_PER_ROW;
+            int col = i % SEATS_PER_ROW;
+
+            int seatX = startX + (SEAT_WIDTH + SEAT_MARGIN) * col;
+            int seatY = startY + (SEAT_HEIGHT + SEAT_MARGIN) * row;
+
+            Rectangle seatRect = {
+                static_cast<float>(seatX),
+                static_cast<float>(seatY),
+                static_cast<float>(SEAT_WIDTH),
+                static_cast<float>(SEAT_HEIGHT)
+            };
+
+            bool isHovered = CheckCollisionPointRec(GetMousePosition(), seatRect);
+
+            // Adjust seat color based on state
+            Color seatColor = isHovered ? GRAY : LIGHTGRAY;
+
+            // Check if the seat is selected
+            if (i == selectedSeat) {
+                seatColor = DARKGRAY;
+                DrawText("Selected", seatX + SEAT_WIDTH / 2 - MeasureText("Selected", 20) / 2, seatY + SEAT_HEIGHT + 10, 20, BLACK);
+            }
+
+            DrawRectangleRounded(seatRect, 0.1f, 5, seatColor);
+
+            char seatNumber[3]; // Buffer to hold the formatted seat number
+            sprintf_s(seatNumber, "%d", i + 1); // Format the seat number as a string
+            DrawText(seatNumber, seatX + SEAT_WIDTH / 2 - MeasureText(seatNumber, 20) / 2, seatY + SEAT_HEIGHT / 2 - 10, 20, BLACK);
+        }
+
         EndDrawing();
     }
 
