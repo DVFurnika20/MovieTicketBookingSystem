@@ -376,14 +376,19 @@ void BookTicket(const Movie& movie)
             // Check if the seat is selected
             if (i == selectedSeat) {
                 seatColor = DARKGRAY;
-                DrawText("Selected", seatX + SEAT_WIDTH / 2 - MeasureText("Selected", 20) / 2, seatY + SEAT_HEIGHT + 10, 20, BLACK);
+                DrawText("Selected", seatX + SEAT_WIDTH / 2 - MeasureText("Selected", 20) / 2, seatY + SEAT_HEIGHT + 10, 20, WHITE);
+            }
+
+            // Check if the left mouse button is pressed while hovering over the seat
+            if (isHovered && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+                selectedSeat = i;
             }
 
             DrawRectangleRounded(seatRect, 0.1f, 5, seatColor);
 
             char seatNumber[3]; // Buffer to hold the formatted seat number
             sprintf_s(seatNumber, "%d", i + 1); // Format the seat number as a string
-            DrawText(seatNumber, seatX + SEAT_WIDTH / 2 - MeasureText(seatNumber, 20) / 2, seatY + SEAT_HEIGHT / 2 - 10, 20, BLACK);
+            DrawText(seatNumber, seatX + SEAT_WIDTH / 2 - MeasureText(seatNumber, 20) / 2, seatY + SEAT_HEIGHT / 2 - 10, 20, (seatColor.r == DARKGRAY.r && seatColor.g == DARKGRAY.g && seatColor.b == DARKGRAY.b && seatColor.a == DARKGRAY.a) ? WHITE : BLACK);
         }
 
         EndDrawing();
