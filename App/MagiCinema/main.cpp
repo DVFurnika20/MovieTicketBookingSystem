@@ -2,8 +2,8 @@
 
 int main()
 {
-    const int screenWidth = 1920;
-    const int screenHeight = 1030;
+    const int screenWidth = 1600;
+    const int screenHeight = 820;
     // Initialize window and other required resources
 
     // Run the menu
